@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.authors = ["mrmalvi"]
   spec.email = ["malviyak00@gmail.com"]
 
-  spec.summary     = 'Sidekiq & Rails request profiler + memwatch + dashboard'
-  spec.description = "Sidekiq & Rails request profiler + memwatch + dashboard"
+  spec.summary     = "Lightweight Sidekiq & Rails performance profiler with CPU, memory, wall-time tracking, leak detection, and a real-time dashboard."
+  spec.description = "SidekiqInsight provides detailed CPU, memory, and wall-time profiling for Sidekiq jobs and Rails requests, automatically detects memory leaks, stores metrics in Redis, and displays everything in a clean, modern dashboard. Ideal for monitoring production workload performance."
+
   spec.homepage = "https://github.com/mrmalvi/sidekiq_insight"
   spec.required_ruby_version = ">= 2.6.0"
 
