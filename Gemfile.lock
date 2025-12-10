@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sidekiq_insight (0.1.1)
+    sidekiq_insight (0.1.2)
       chartkick
       get_process_mem
       groupdate
