@@ -7,19 +7,22 @@ module SidekiqInsight
     end
 
     def call(env)
-      pm_before = GetProcessMem.new
-      rss_before = pm_before.mb * 1024.0
-      cpu_before = Process.clock_gettime(Process::CLOCK_PROCESS_CPUTIME_ID)
-      t_before = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      # ---- BEFORE REQUEST ----
+      pm_before   = GetProcessMem.new
+      rss_before  = pm_before.mb * 1024.0
+      cpu_before  = Process.clock_gettime(Process::CLOCK_PROCESS_CPUTIME_ID)
+      t_before    = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
       status, headers, body = @app.call(env)
 
-      t_after = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      # ---- AFTER REQUEST ----
+      t_after   = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       cpu_after = Process.clock_gettime(Process::CLOCK_PROCESS_CPUTIME_ID)
-      pm_after = GetProcessMem.new
+      pm_after  = GetProcessMem.new
       rss_after = pm_after.mb * 1024.0
 
       req = Rack::Request.new(env)
+
       sample = {
         path: req.path,
         method: req.request_method,
@@ -30,6 +33,7 @@ module SidekiqInsight
         rss_kb: (rss_after - rss_before)
       }
 
+      # 🚨 FIX — separate HTTP bucket
       SidekiqInsight.storage.push_sample("__http__#{req.path}", sample)
 
       [status, headers, body]

@@ -2,9 +2,7 @@
   <h2 class="mb-4 text-primary fw-bold">CPU Usage — Top Jobs</h2>
 
   <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-dark text-white">
-      Job Statistics
-    </div>
+    <div class="card-header bg-dark text-white">Job Statistics</div>
 
     <div class="card-body p-0">
       <table class="table table-striped mb-0">
@@ -15,6 +13,7 @@
             <th>Runs</th>
           </tr>
         </thead>
+
         <tbody>
           <% @jobs.each do |job| %>
             <tr>
@@ -28,6 +27,9 @@
     </div>
   </div>
 
-  <%= render partial: "chart",
-             locals: { title: "CPU Time (ms)", dom_id: "cpu_chart", data: @cpu_chart } %>
+  <%= render "chart",
+             title: "CPU Time (ms)",
+             dom_id: "cpu_chart",
+             data: @cpu_chart %>
 </div>
+

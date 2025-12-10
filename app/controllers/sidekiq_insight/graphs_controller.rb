@@ -26,13 +26,19 @@ module SidekiqInsight
     private
 
     def build_series(metric_sym)
-      data = {}
-      SidekiqInsight.storage.top_jobs(20).each do |job|
+      points = []
+
+      SidekiqInsight.storage.top_jobs(50).each do |job|
         samples = SidekiqInsight.storage.recent(job[:key], 200)
-        series = samples.reverse.map { |s| [s[:started_at], s[metric_sym].to_f] }
-        data[job[:key]] = series
+
+        samples.each do |s|
+          points << [s[:started_at], s[metric_sym].to_f]
+        end
       end
-      data
+
+      points.sort_by! { |t, _| t }
+
+      points
     end
   end
 end

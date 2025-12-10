@@ -1,21 +1,16 @@
 <div class="container py-4">
+  <h2 class="mb-4 text-success fw-bold">RSS Memory Usage — Top Jobs</h2>
 
-  <h2 class="mb-4 text-success fw-bold">
-    RSS Memory Usage — Top Jobs
-  </h2>
-
-  <!-- Jobs Table -->
   <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-success text-white">
-      Job Memory Summary
-    </div>
+    <div class="card-header bg-success text-white">Job Memory Summary</div>
 
     <div class="card-body p-0">
-      <table class="table table-hover table-striped mb-0">
+      <table class="table table-striped table-hover mb-0">
         <thead class="table-light">
           <tr>
             <th>Job</th>
-            <th>Average RSS (KB)</th>
+            <th>Avg RSS (ms)</th>
+            <th>Avg CPU (ms)</th>
             <th>Runs</th>
           </tr>
         </thead>
@@ -24,7 +19,8 @@
           <% @jobs.each do |job| %>
             <tr>
               <td><strong><%= job[:key] %></strong></td>
-              <td><%= job[:avg_mem_kb].round(2) %></td>
+              <td><%= job[:avg_mem_kb].round(2) %> KB</td>
+              <td><%= job[:avg_cpu_ms].round(2) %> ms</td>
               <td><%= job[:count] %></td>
             </tr>
           <% end %>
@@ -33,10 +29,8 @@
     </div>
   </div>
 
-  <!-- Chart -->
-  <%= render partial: "chart",
-             locals: { title: "RSS Memory (KB)",
-                       dom_id: "rss_chart",
-                       data: @rss_chart } %>
-
+  <%= render "chart",
+             title: "RSS Memory (KB)",
+             dom_id: "rss_chart",
+             data: @rss_chart %>
 </div>

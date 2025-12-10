@@ -6,43 +6,55 @@
     <div class="col-md-8">
       <div class="card shadow-sm h-100">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-          <h4 class="mb-0">Top Jobs by Avg CPU</h4>
-          <span class="badge bg-light text-primary">
+          <h4 class="mb-0"><i class="bi bi-speedometer2"></i> Top Jobs by Avg CPU</h4>
+          <span class="badge bg-light text-primary fs-6">
             <%= @jobs.count %> jobs
           </span>
         </div>
 
         <div class="card-body p-0">
-          <table class="table table-hover table-striped mb-0">
+
+          <table class="table table-hover table-striped table-bordered mb-0 align-middle">
             <thead class="table-light">
               <tr>
-                <th>Job</th>
-                <th>Count</th>
-                <th>Avg CPU (ms)</th>
-                <th>Avg Mem (KB)</th>
-                <th></th>
+                <th style="width: 40%;">Job</th>
+                <th class="text-center" style="width: 10%">Runs</th>
+                <th class="text-center" style="width: 15%">Avg CPU</th>
+                <th class="text-center" style="width: 15%">Avg Mem</th>
+                <th class="text-center" style="width: 10%;">Action</th>
               </tr>
             </thead>
 
             <tbody>
               <% @jobs.each do |j| %>
                 <tr>
-                  <td class="fw-semibold"><%= j[:key] %></td>
-                  <td><%= j[:count] %></td>
-                  <td>
-                    <span class="badge bg-info text-dark">
-                      <%= number_with_precision(j[:avg_cpu_ms], precision: 2) %>
+                  <!-- JOB NAME -->
+                  <td class="fw-semibold text-break"><%= j[:key] %></td>
+
+                  <!-- RUNS -->
+                  <td class="text-center">
+                    <span class="badge bg-secondary"><%= j[:count] %></span>
+                  </td>
+
+                  <!-- AVG CPU -->
+                  <td class="text-center">
+                    <span class="badge bg-info text-dark px-3 py-2">
+                      <%= number_with_precision(j[:avg_cpu_ms], precision: 2) %> ms
                     </span>
                   </td>
-                  <td>
-                    <span class="badge bg-success">
-                      <%= number_with_precision(j[:avg_mem_kb], precision: 2) %>
+
+                  <!-- AVG MEMORY -->
+                  <td class="text-center">
+                    <span class="badge bg-success px-3 py-2">
+                      <%= number_with_precision(j[:avg_mem_kb], precision: 2) %> KB
                     </span>
                   </td>
-                  <td>
-                    <a class="btn btn-sm btn-outline-primary"
+
+                  <!-- SHOW BUTTON -->
+                  <td class="text-center">
+                    <a class="btn btn-sm btn-outline-primary px-3"
                        href="<%= sidekiq_insight.job_path(job: j[:key]) %>">
-                       View
+                      Show
                     </a>
                   </td>
                 </tr>
@@ -54,28 +66,32 @@
       </div>
     </div>
 
+
     <!-- ================= LEAK ALERTS ================= -->
     <div class="col-md-4">
       <div class="card shadow-sm h-100">
-        <div class="card-header bg-danger text-white">
-          <h4 class="mb-0">Leak Alerts</h4>
+        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Leak Alerts</h4>
         </div>
 
         <div class="card-body">
+
           <% if @alerts.present? %>
-            <ul class="list-group">
+            <ul class="list-group shadow-sm">
               <% @alerts.each do |a| %>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <strong><%= a[:job] %></strong>
-                  <span class="badge bg-danger">Leak suspected</span>
+                  <span class="badge bg-danger px-3">⚠ Leak suspected</span>
                 </li>
               <% end %>
             </ul>
           <% else %>
-            <div class="text-center text-muted py-3">
-              No recent leak alerts 🔍
+            <div class="text-center text-muted py-4">
+              <i class="bi bi-check2-circle fs-1 text-success"></i>
+              <div class="mt-2">No recent leak alerts</div>
             </div>
           <% end %>
+
         </div>
       </div>
     </div>
