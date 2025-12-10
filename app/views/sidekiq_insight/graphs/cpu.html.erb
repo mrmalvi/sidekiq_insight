@@ -18,7 +18,7 @@
           <% @jobs.each do |job| %>
             <tr>
               <td><strong><%= job[:key] %></strong></td>
-              <td><%= job[:avg_cpu_ms].round(2) %></td>
+              <td><%= job[:avg_cpu_ms].round(2) %> ms</td>
               <td><%= job[:count] %></td>
             </tr>
           <% end %>

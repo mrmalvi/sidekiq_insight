@@ -24,8 +24,8 @@
             <% @leak_jobs.each do |job| %>
               <tr class="table-danger">
                 <td><strong><%= job[:key] %></strong></td>
-                <td><%= job[:avg_mem_kb].round(2) %></td>
-                <td><%= job[:avg_cpu_ms].round(2) %></td>
+                <td><%= job[:avg_mem_kb].round(2) %> KB</td>
+              <td><%= job[:avg_cpu_ms].round(2) %> ms</td>
                 <td><%= job[:count] %></td>
               </tr>
             <% end %>
