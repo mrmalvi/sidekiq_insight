@@ -1,0 +1,31 @@
+<div class="container py-4">
+  <h2 class="mb-4 text-info fw-bold">Wall Time</h2>
+
+  <div class="card mb-3 shadow-sm">
+    <div class="card-header bg-info text-white">
+      Job Wall Time Summary
+    </div>
+
+    <div class="card-body p-0">
+      <table class="table table-bordered mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Job</th>
+            <th>Runs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @jobs.each do |job| %>
+            <tr>
+              <td><strong><%= job[:key] %></strong></td>
+              <td><%= job[:count] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%= render partial: "chart",
+             locals: { title: "Wall Time (ms)", dom_id: "wall_chart", data: @wall_chart } %>
+</div>

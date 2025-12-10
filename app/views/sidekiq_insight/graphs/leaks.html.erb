@@ -1,0 +1,38 @@
+<div class="container py-4">
+  <h2 class="mb-4 text-danger fw-bold">Memory Leak Detector</h2>
+
+  <% if @leak_jobs.empty? %>
+    <div class="alert alert-success shadow-sm">
+      No leaks detected 🎉
+    </div>
+  <% else %>
+    <div class="card shadow-sm">
+      <div class="card-header bg-danger text-white">
+        Leaking Jobs
+      </div>
+
+      <div class="card-body p-0">
+        <table class="table table-striped mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Job</th>
+              <th>Avg RSS (KB)</th>
+              <th>Avg CPU (ms)</th>
+              <th>Runs</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @leak_jobs.each do |job| %>
+              <tr class="table-danger">
+                <td><strong><%= job[:key] %></strong></td>
+                <td><%= job[:avg_mem_kb].round(2) %></td>
+                <td><%= job[:avg_cpu_ms].round(2) %></td>
+                <td><%= job[:count] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>

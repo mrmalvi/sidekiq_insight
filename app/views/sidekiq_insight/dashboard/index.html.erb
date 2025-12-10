@@ -1,0 +1,84 @@
+<div class="container py-4">
+
+  <div class="row g-4">
+
+    <!-- ================= TOP JOBS ================= -->
+    <div class="col-md-8">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">Top Jobs by Avg CPU</h4>
+          <span class="badge bg-light text-primary">
+            <%= @jobs.count %> jobs
+          </span>
+        </div>
+
+        <div class="card-body p-0">
+          <table class="table table-hover table-striped mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Job</th>
+                <th>Count</th>
+                <th>Avg CPU (ms)</th>
+                <th>Avg Mem (KB)</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @jobs.each do |j| %>
+                <tr>
+                  <td class="fw-semibold"><%= j[:key] %></td>
+                  <td><%= j[:count] %></td>
+                  <td>
+                    <span class="badge bg-info text-dark">
+                      <%= number_with_precision(j[:avg_cpu_ms], precision: 2) %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge bg-success">
+                      <%= number_with_precision(j[:avg_mem_kb], precision: 2) %>
+                    </span>
+                  </td>
+                  <td>
+                    <a class="btn btn-sm btn-outline-primary"
+                       href="<%= sidekiq_insight.job_path(job: j[:key]) %>">
+                       View
+                    </a>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= LEAK ALERTS ================= -->
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-danger text-white">
+          <h4 class="mb-0">Leak Alerts</h4>
+        </div>
+
+        <div class="card-body">
+          <% if @alerts.present? %>
+            <ul class="list-group">
+              <% @alerts.each do |a| %>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <strong><%= a[:job] %></strong>
+                  <span class="badge bg-danger">Leak suspected</span>
+                </li>
+              <% end %>
+            </ul>
+          <% else %>
+            <div class="text-center text-muted py-3">
+              No recent leak alerts 🔍
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

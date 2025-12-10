@@ -1,0 +1,33 @@
+<div class="container py-4">
+  <h2 class="mb-4 text-primary fw-bold">CPU Usage — Top Jobs</h2>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-header bg-dark text-white">
+      Job Statistics
+    </div>
+
+    <div class="card-body p-0">
+      <table class="table table-striped mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Job</th>
+            <th>Average CPU (ms)</th>
+            <th>Runs</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @jobs.each do |job| %>
+            <tr>
+              <td><strong><%= job[:key] %></strong></td>
+              <td><%= job[:avg_cpu_ms].round(2) %></td>
+              <td><%= job[:count] %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <%= render partial: "chart",
+             locals: { title: "CPU Time (ms)", dom_id: "cpu_chart", data: @cpu_chart } %>
+</div>

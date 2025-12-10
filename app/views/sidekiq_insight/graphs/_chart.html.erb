@@ -1,0 +1,40 @@
+<div class="card mb-4 shadow-sm">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0"><%= title %></h5>
+  </div>
+
+  <div class="card-body">
+    <canvas id="<%= dom_id %>" height="120"></canvas>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const ctx = document.getElementById("<%= dom_id %>").getContext("2d");
+
+  const datasets = [
+    <% data.each do |job_key, series| %>
+      {
+        label: "<%= job_key %>",
+        data: <%= series.map { |t, v| { x: t, y: v } }.to_json %>,
+        borderWidth: 2,
+        tension: 0.3,
+      },
+    <% end %>
+  ];
+
+  new Chart(ctx, {
+    type: 'line',
+    data: { datasets: datasets },
+    options: {
+      responsive: true,
+      parsing: false,
+      plugins: { legend: { position: "bottom" } },
+      scales: {
+        x: { type: 'time', time: { unit: 'minute' } },
+        y: { beginAtZero: true }
+      }
+    }
+  });
+});
+</script>
